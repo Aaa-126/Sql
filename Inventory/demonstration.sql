@@ -11,3 +11,9 @@ INSERT INTO stock_transaction ( item_id, transaction_type, quantity, party_id, e
 
 
 SELECT * FROM inventory_batches;
+CALL update_avg_usage(2);
+SELECT * FROM inventory_items;
+
+SELECT * FROM consumer_log;
+SELECT * FROM supplier_log;
+SELECT * FROM stock_transaction;
