@@ -11,7 +11,7 @@ The system handles the tracking of inventory items, suppliers, guests, and stock
 
 ##  Schema Highlights
 
-- WRITTEN in inventory_schema.sql.
+- WRITTEN in inventory_schema.sql, logs.sql, common_entity.sql.
 
 ### Main Tables
 

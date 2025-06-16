@@ -1,4 +1,5 @@
 -- stored procedures
+USE hotel;
 
 DELIMITER |
 -- to manually calculate min_required,based on lead_time and avg_daily_usage for a item to lessen the chances of stock out and also updating min_supplier
@@ -155,6 +156,9 @@ BEGIN
     loop_ : LOOP
     
 		FETCH cur into item_id_;
+        IF done THEN
+            LEAVE loop_;
+        END IF;
         
         IF NOT EXISTS (SELECT * FROM supplier_items WHERE item_id = item_id_) THEN
 			INSERT INTO inventory_recommend (item_id, message)
@@ -228,7 +232,7 @@ BEGIN
 		
         FETCH cur INTO item_id_, total_qty_;
 		IF done THEN
-			LEAVE usage_loop;
+			LEAVE loop_;
 		END IF;
         
          -- selectin' min_lead_time for a item id
@@ -239,8 +243,9 @@ BEGIN
 		-- -------------------------------------
         
         UPDATE reorder_rules
-        SET min_required = min_lead_time_ * (total_qty_ / 7);
-    
+        SET min_required = min_lead_time_ * (total_qty_ / 7)
+        WHERE item_id = item_id_;
+        
     END LOOP loop_;
     
 END |
