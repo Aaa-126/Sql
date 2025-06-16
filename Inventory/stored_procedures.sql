@@ -205,4 +205,43 @@ END |
 
 DELIMITER ;
 
+-- calculate min_required based on last year
+DELIMITER |
 
+CREATE PROCEDURE calculate_min_required_based_last_year()
+BEGIN
+	DECLARE done BOOLEAN;
+    DECLARE item_id_ INT;
+    DECLARE total_qty_ INT;
+    DECLARE supplier_id_ INT;
+    DECLARE min_lead_time_ INT;
+    
+    DECLARE cur CURSOR FOR 
+    SELECT item_id, SUM(quantity)
+    FROM consumer_log
+    WHERE DATE(transaction_date) >= CURRENT_DATE - INTERVAL 1 YEAR - INTERVAL 7 day
+    GROUP BY item_id;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	OPEN cur;
+    loop_: LOOP
+		
+        FETCH cur INTO item_id_, total_qty_;
+		IF done THEN
+			LEAVE usage_loop;
+		END IF;
+        
+         -- selectin' min_lead_time for a item id
+		SELECT supplier_id, lead_time_days INTO supplier_id_, min_lead_time_
+		WHERE item_id = item_id_
+		ORDER BY lead_time_days ASC
+		LIMIT 1;
+		-- -------------------------------------
+        
+        UPDATE reorder_rules
+        SET min_required = min_lead_time_ * (total_qty_ / 7);
+    
+    END LOOP loop_;
+    
+END |
+DELIMITER ;
