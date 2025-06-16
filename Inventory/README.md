@@ -3,7 +3,9 @@
 
 ## Overview
 
-This project implements a inventory management system using **MySQL**. It manages inventory items, suppliers, guests, transactions (stock in/out/adjustment), and keeps logs for low stock alerts and batch and precise cost and sellling prices tracking. The system uses **triggers** and **stored procedures** to enforce business rules, automate stock updates, and maintain data integrity.
+Inventory management is a critical component of any business, whether it's a hotel, restaurant, or retail store. This project implements a robust Inventory Management System using MySQL, designed to efficiently manage stock, ensure accuracy, and support business operations.
+
+The system handles the tracking of inventory items, suppliers, guests, and stock transactions (including IN, OUT, and ADJUSTMENT). It supports precise tracking of cost and selling prices, and maintains batch-level data with expiry dates and total cost.
 
 ---
 
@@ -58,7 +60,7 @@ This project implements a inventory management system using **MySQL**. It manage
 | `calculate_min_required_based_last_year()`  | as name suggest                                   |
 ---
 
-## Views (Optional)
+## Views
 - WRITTEN in views.sql
 
 | View Name          | Purpose                                                              |
@@ -74,7 +76,6 @@ This project implements a inventory management system using **MySQL**. It manage
 
 - INCLUDED in repo with PNG name 'ER_diagram.PNG'
 
-```
 
 ---
 
